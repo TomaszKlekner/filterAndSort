@@ -1,6 +1,6 @@
 const DataTable = ({ data }) => {
   return (
-    <div className="data-list">
+    <div className='data-table'>
       <table>
         <thead>
           <tr>
@@ -14,6 +14,7 @@ const DataTable = ({ data }) => {
         <tbody>
           {data.map(({ id, name, country, industry, numberOfEmployees }) => (
             <tr key={id}>
+              <td>{id}</td>
               <td>{name}</td>
               <td>{country}</td>
               <td>{industry}</td>

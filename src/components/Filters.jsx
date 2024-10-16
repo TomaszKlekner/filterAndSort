@@ -7,33 +7,33 @@ const Filters = ({ countryList, industryList, filters, setFilters }) => {
   };
 
   return (
-    <div className="filters">
-      <h2>Filters</h2>
+    <div className='filters'>
+      <h2 className='custom-filter-heading'>Filters</h2>
 
-      <div className="filters__row">
-        <label htmlFor="country">Select a country</label>
+      <div className='filters__row'>
+        <label htmlFor='country'>Select a country</label>
         <select
-          name="country"
+          name='country'
           value={filters.country}
-          id="country"
+          id='country'
           onChange={handleFilterSelect}
         >
-          <option value="">All</option>
+          <option value=''>All</option>
           {countryList.map((country) => (
             <option key={country}>{country}</option>
           ))}
         </select>
       </div>
 
-      <div className="filters__row">
-        <label htmlFor="country">Select an industry</label>
+      <div className='filters__row'>
+        <label htmlFor='country'>Select an industry</label>
         <select
-          name="industry"
+          name='industry'
           value={filters.industry}
-          id="industry"
+          id='industry'
           onChange={handleFilterSelect}
         >
-          <option value="">All</option>
+          <option value=''>All</option>
           {industryList.map((industry) => (
             <option key={industry}>{industry}</option>
           ))}

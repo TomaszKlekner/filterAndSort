@@ -1,19 +1,23 @@
-import DataTable from "./components/DataTable";
-import Filters from "./components/Filters";
-import Sorting from "./components/Sorting";
-import "./styles/main.scss";
-import useFetchData from "./hooks/useFetchData";
-import { useState, useMemo, useEffect } from "react";
+import DataTable from './components/DataTable';
+import Filters from './components/Filters';
+import Sorting from './components/Sorting';
+import './styles/main.scss';
+import useFetchData from './hooks/useFetchData';
+import { useState, useMemo, useEffect } from 'react';
 
-const API_URL = "https://dujour.squiz.cloud/developer-challenge/data";
+const API_URL = 'https://dujour.squiz.cloud/developer-challenge/data';
 
 function App() {
   const { data, loading, error } = useFetchData(API_URL);
   const [countryList, setCountryList] = useState([]);
   const [industryList, setIndustryList] = useState([]);
   const [filters, setFilters] = useState({
-    country: "",
-    industry: "",
+    country: '',
+    industry: '',
+  });
+  const [sort, setSort] = useState({
+    field: 'name',
+    direction: 'asc',
   });
 
   useEffect(() => {
@@ -40,32 +44,48 @@ function App() {
     return filteredList;
   }, [data, filters]);
 
+  const sortedData = useMemo(() => {
+    return [...filteredData].sort((a, b) => {
+      if (sort.field === 'name') {
+        return sort.order === 'asc'
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      } else if (sort.field === 'numberOfEmployees') {
+        return sort.order === 'asc'
+          ? a.numberOfEmployees - b.numberOfEmployees
+          : b.numberOfEmployees - a.numberOfEmployees;
+      }
+      return 0;
+    });
+  }, [filteredData, sort]);
+
   return (
     <>
       <header>
-        <div className="container">Filter and Sort</div>
+        <h1>Filter and sort data</h1>
       </header>
-      <main>
-        <div className="container flex">
-          <div className="sidebar">
-            <Filters
-              countryList={countryList}
-              industryList={industryList}
-              filters={filters}
-              setFilters={setFilters}
-            />
-            <Sorting />
-          </div>
-          <div className="content">
-            {loading && <p>Loading...</p>}
-            {error && <p>Error fetching data</p>}
-            {!loading && !error && <DataTable data={filteredData} />}
-          </div>
+      <div className='app-container'>
+        <div className='sidebar'>
+          <Filters
+            countryList={countryList}
+            industryList={industryList}
+            filters={filters}
+            setFilters={setFilters}
+          />
+          <Sorting sort={sort} setSort={setSort} />
         </div>
-      </main>
-      <footer>
-        <div className="container">Footer</div>
-      </footer>
+        <div className='content'>
+          {loading && <p>Loading...</p>}
+          {error && <p>Error fetching data</p>}
+          {!loading &&
+            !error &&
+            (sortedData.length > 0 ? (
+              <DataTable data={sortedData} />
+            ) : (
+              <p>No data</p>
+            ))}
+        </div>
+      </div>
     </>
   );
 }
