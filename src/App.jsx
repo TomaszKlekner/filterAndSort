@@ -1,3 +1,6 @@
+import DataList from "./components/DataList";
+import Filters from "./components/Filters";
+import Sorting from "./components/Sorting";
 import "./styles/main.scss";
 
 function App() {
@@ -8,8 +11,13 @@ function App() {
       </header>
       <main>
         <div className="container flex">
-          <div className="sidebar">sidebar</div>
-          <div className="content">content</div>
+          <div className="sidebar">
+            <Filters />
+            <Sorting />
+          </div>
+          <div className="content">
+            <DataList />
+          </div>
         </div>
       </main>
       <footer>
