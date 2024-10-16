@@ -1,9 +1,14 @@
-import DataList from "./components/DataList";
+import DataTable from "./components/DataTable";
 import Filters from "./components/Filters";
 import Sorting from "./components/Sorting";
 import "./styles/main.scss";
+import useFetchData from "./hooks/useFetchData";
+
+const API_URL = "https://dujour.squiz.cloud/developer-challenge/data";
 
 function App() {
+  const { data, loading, error } = useFetchData(API_URL);
+
   return (
     <>
       <header>
@@ -16,7 +21,9 @@ function App() {
             <Sorting />
           </div>
           <div className="content">
-            <DataList />
+            {loading && <p>Loading...</p>}
+            {error && <p>Error fetching data</p>}
+            {!loading && !error && <DataTable data={data} />}
           </div>
         </div>
       </main>
