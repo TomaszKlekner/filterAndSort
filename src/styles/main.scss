@@ -116,6 +116,14 @@ main {
   }
 
   .content {
-    flex: 4;
+    flex: 3;
   }
+}
+
+.filters,
+.sorting {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
